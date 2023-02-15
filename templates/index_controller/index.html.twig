@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Index - {{parent()}}{% endblock %}
+
+{% block body %}
+
+<h1 class='display-2' style='margin-bottom:50px;'>{% if(app.request.get('_route') == 'bulletin_consult')  %}
+Bullutin : {{ bulletin[0].title }}</h1>
+{% else %}
+Liste Des Bulletins
+{% endif %}
+</h1>
+<a class="btn btn-warning" href="{{ path('bulletin_generate') }}">Générer Bulletin</a>
+<a class="btn btn-success" href="{{ path('bulletin_create') }}">Créer Bulletin</a>
+    {% if bulletins is defined %}
+    <div id='bulletins-list'>
+        {%  for bulletin in bulletins   %}
+            
+                <div class='alert alert-{{ bulletin.color }}' style='margin-top:20px;'>
+                    <h3 class='display-5'>{{ bulletin.title }} </h3>
+                    <p class='h3'>{{ bulletin.displayCategory }}</p>
+                    <p>contenu : {{ bulletin.content }}.</p>
+                    <ht>
+                    <p class='lead'>Le {{ bulletin.date|date('d/m/y à G:i:s', 'Europe/Paris' ) }} </p>
+                    <p>
+                    <b>Tags:</b>
+                    {% if bulletin.tags is empty %}
+                    <i>Aucun</i>
+                    {% else %}
+                        {%  for tag in bulletin.tags %}
+                        <a style="color:black; text-decoration:none;" href="{{ path('index_tag', {'tagId': tag.id})}}">
+                         - {{ tag.name }}
+                        </a>
+                        {% endfor %}
+                    {% endif %}
+                    </p>
+                    <a class='btn btn-danger' href="{{ path('bulletin_delete',{'bulletinId' : bulletin.id}) }}">Supprimer</a>
+                    {% if(app.request.get('_route') != 'bulletin_consult')  %}
+                    <a class='btn btn-success' href="{{ path('bulletin_consult',{'bulletinId' : bulletin.id}) }}">Consulté</a>
+                    {% endif %}
+                    <a class='btn btn-warning' href="{{ path('bulletin_update',{'bulletinId' : bulletin.id}) }}">Modifier</a>
+                </div>
+                {% endfor  %}
+            </div>
+        
+    {% endif %}
+
+{% endblock %}

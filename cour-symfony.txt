@@ -1,0 +1,350 @@
+
+	Trois principales informations:
+
+	Votre parcours avant de commencer la formation (vous pouvez être bref)
+	Pourquoi vous avez choisi cette formation, et pourquoi le PHP s'il ne vous a pas été imposé?
+	Qu'est-ce que vous espérez à l'issue de la formation (domaine professionel)
+
+	(Inutile d'être vraiment détaillé, le but est de comprendre votre parcours, et non de vous demander de faire vos preuves)
+
+	--
+	La structure de notre cours (durant quatre semaines)
+
+	Nous allons mener ensemble trois différents projets Symfony.
+
+	- Un premier projet pendant la première semaine (Initiation), qui sera un projet simple d'application web d'affichage de bulletins, dont le contenu sera conservé dans la base de données. SymfonyBlog
+	- Un second projet, pendant les seconde et troisième semaines (Intermédiaire et Perfectionnement). Ce projet simulera un site de vente (sans l'aspect paiement, qui n'est pas le sujet du cours), et permettra de présenter différents produits, leurs informations, ainsi qu'une simulation d'achat. Ce site concentré sur l'aspect logistique sera intitué SymfonyEcommerce
+	- Un troisième projet, que vous effectuerez seuls, avec une guidance. L'idée ici sera, après avoir reçu une série d'instructions, de mettre en place votre propre projet Symfony en essayant de respecter les critères indiqués ainsi que les souhaits du client imaginaire. Le but ici n'est pas de collectionner les différentes fonctionnalités, mais de créer une application fonctionnelle et solide, capable d'être présentée, même si basique. Le projet sera présenté à la fin de la semaine (Jeudi ou Vendredi selon votre choix), et la note de la semaine sera basée sur ce projet en question.
+
+	Pause de 10h30 à 10h45, pause déjeuner de 12h30 jusqu'à 13h30, pause d'après-midi de 15h30 à 15h45.
+
+
+	---
+	Qu'est-ce que Symfony?
+
+	Symfony est un framework PHP orienté objet, qui a une architecture de type "MVC"
+
+	MVC est l'abréviation de "Model" (Modèle), "View" (Vue), et "Controller" (Contrôleur), qui sont les trois types de "Design Pattern" (ou en français, "Patron de Conception"), lesquels sont utilisés conjointement afin de réaliser l'architecture de notre framework.
+
+	Un Design Pattern/Patron de Conception est un arrangement caractéristique de modules, reconnu comme bonne pratique en réponse à un problème de conception de logiciel.
+	Le Design Pattern/Patron de Conception décrit une solution standard, utilisable dans la conception de différents logiciels. C'est un formalism conçu pour répondre à des problèmes particuliers avec une méthode prédéfinie.
+
+	La structure de Symfony est donc basée sur un paradigme Model-View-Controller, ou MVC. La structure MVC est une structure très utilisée dans le cadre de développement de logiciels possédant une interface graphique.
+
+
+	Comment installer Symfony?
+
+	Pour préparer notre projet Symfony, nous allons avoir besoin de deux applications:
+		Symfony CLI (Command Line Interface) -> Une application qui nous permettra de pouvoir effectuer différentes opérations nécessaires pour notre application Symfony mais qui ne sera PAS notre projet. Symfony CLI nous permettra également de générer de nouveaux projets, ainsi que de lancer un serveur pour notre application.
+		Composer -> Composer est une application qui nous permettra de télécharger des modules utiles à notre application Symfony. Etant donné que notre projet de base est une collection de modules téléchargés via Composer, il nous faudra installer Composer avant d'installer Symfony CLI.
+
+	Dans l'ordre:
+		Composer -> http://getcomposer.org (ne PAS utiliser le developer mode)
+		Symfony CLI -> http://symfony.com/download
+
+
+	Nous créons un nouveau projet via la commande:
+		symfony new --webapp MonProjet (dans notre cas, "MonProjet" sera "SymfonyBlog")
+	A la suite de cette commande, un nouveau projet Symfony sera téléchargé et configuré à l'intérieur du dossier actif dans le terminal (dans notre cas, "htdocs" ou "www").
+
+	Notre projet Symfony comporte différents fichiers et dossiers générés au cours de l'installation. Bin, Config, Migrations, Public, Src, Templates, Tests, Translations, Var, Vendor.
+
+	Situé à la racine de notre projet, le fichier .env a pour objectif de déterminer nos variables d'environnement. Nous allons surtout l'utiliser pour déterminer l'état de notre projet, via la variable APP_ENV, dont la valeur sera "dev" pour Développement, ou "prod" pour Production. Dans notre cas, notre projet est en cours de développement, et nous n'avons donc pas besoin de toucher à cette variable.
+	Le fichier .env permet également de configurer notre connexion à notre base de données, en spécifiant notre système de gestion de base de données désiré (dans notre cas, MySQL), ainsi que les différents éléments nécessaires à la connexion, tels que l'adresse et le port de connexion, le nom d'utilisateur, etc.
+
+	Le dossier bin contient deux fichiers, console et phpunit. Il s'agit d'un dossier que nous n'allons pas modifier mais qui est d'une grande importance car il contient les différentes commandes utilisées par le terminal pour notre projet.
+
+	Le dossier config contient plusieurs fichiers de configuration, souvent sous le format .yaml, lesquels sont nécessaires à la personnalisation et aux différents réglages de Symfony. La majorité des modifications de nos fichiers de configuration étant automatisée, nous n'aurons à changer le contenu de ces fichiers que de manière occasionnelle. On peut donc ici configurer la manière dont sont administrées nos routes, les bibliothèques Twig et Doctrine, etc.
+
+	Le dossier Migrations est lié à la bibliothèque Doctrine, et se compose de fichier classe PHP servant d'intermédiaires dans le cadre de la structuration et modification de notre base de données (le nombre de table et leur structure). Les migrations étant automatiquement gérées par Doctrine, nous aurons rarement à directement manipuler ces fichiers.
+
+	Le dossier public est le seul dossier accessible aux requêtes client. Cela signifie que c'est le seul dossier que l'utilisateur sera capable d'accéder du côté Client. Le dossier public contient le fichier index.php, lequel est le point d'entrée vers notre application et lance toute l'application Symfony lorsqu'appelé (à chaque connexion).
+	Ce sera aussi dans le dossier public que devront être placés les différents fichiers que nous désirons rendre disponibles à l'utilisateur, tels que les images et vidéos, mais également les fichiers CSS et Javascript.
+
+	Le dossier src contient trois sous-dossiers, contenant deux des éléments-coeur de notre application: Les aspects Controller (via le dossier controller) et Model (via les dossier entity et repository).
+	Le dossier Controller contient les classes PHP dites de type Controller. Dans le cadre de notre premier projet, la grande majorité de la logique PHP de notre application que nous allons écrire sera placée dans ces fichiers.
+	Les dossiers Entity et Repository sont liés et sont deux dossiers accessoires à l'ORM Doctrine, qui est une bibliothèque chargée de la gestion de notre base de données. Le dossier Entity possède plusieurs classes PHP nommées Entities (ou Entités), lesquels seront utilisées par Doctrine pour générer des tables du même nom au sein de notre base de données. Les classes Repository seront ensuite utilisées par Doctrine afin de mener des recherches automatisées dans notre base de données.
+
+	Le dossier Templates contient les différents fichiers écrits selon le langage de template Twig, dont le but est de servir de base pour générer des pages web à envoyer à l'utilisateur, côté Client.
+
+	Les dossiers Test et Translations, comme leur nom l'indique, sont liés à des procédures de test et de traduction pour notre application. Dans le cadre de ce cours, nous n'allons pas y toucher.
+
+	Le dossier var contient deux sous-dossiers, cache, et log. Le dossier cache contient les différents fichiers temporaires générés par notre application afin d'accélerer son fonctionnement. Le dossier Log contient différentes informations générées automatiquement qui pourraient être utiles en cas de test ou de déboggage. En cas de mise à jour de notre site, il est recommandé de vider le cache afin de générer de nouveaux fichiers temporaires à jour des changements récents. Ceci est effectué grâce à la commande suivante à écrire dans le terminal:
+		php bin/console cache:clear
+
+	Le dossier Vendor contient toutes les bibliothèques extérieures à notre application, dont Doctrine, Twig, et Symfony. Par convention, un dossier Vendor est un dossier qui contient toutes les bibliothèques extérieures à une application. Ce dossier étant automatiquement géré et mis à jour, nous n'avons pas à y toucher.
+
+
+	La logique de base de notre application Symfony
+
+	Dans le cadre de notre application web, le fonctionnement est basé sur un échange répété de REQUETE et de REPONSE.
+	Une accès à une application web se fait via une requête HTTP, qui contient plusieurs informations tels que le nom du site, et d'autres paramètres passés non seulement par la barre d'adresse mais pas forcément. La requête HTTP la plus simple comportera des informations annexes telles que la version de votre navigateur, votre adresse IP, le système d'exploitation, etc.
+	Aussi, les requêtes que vous envoyez peuvent être plus complexes: par exemple, les formulaires de type POST. Un formulaire de type POST contient des informations passées via requête HTTP: elles ne sont cependant pas visibles dans la barre d'adresse.
+	Suite à cette requête, le serveut rend une réponse, basée sur la même syntaxe HTTP. Dans le cas de Symfony, deux bibliothèques particulières ont été développées pour gérer les requêtes et les réponses.
+	Il s'agit des classes Symfony Request et Response.
+
+	La classe Response, dans notre application Symfony, crée un objet particulier: cet objet sera la réponse envoyée à notre application pour répondre à la requête client.
+	Afin de pouvoir utiliser l'objet Response dans notre controller, il faut toujours être sûr qu'il soit mentionné dans les Use en début de page. En l'espèce:
+		use Symfony\Component\HttpFoundation\Response;
+	Dans le cadre de la première page web générée par Symfony lors de la création d'un nouveau Controller, la méthode par défaut mentionne le fait qu'elle retourne un objet de type Response, mais le contenu de l'instruction mentionne une méthode qui est "render"
+		return $this->render($url, array($args));
+	Ici, la méthode render(), appelée par notre controller (ce que nous pouvons constater du fait de la variable $this, qui indique une méthode contenue par la classe), génère automatiquement un objet de type Response très complexe, lequel prendra plusieurs paramètres. Le premier paramètre est un lien vers un template qui servira de base pour générer la page web (dans le cas de notre IndexController, il s'agit de "index.html.twig", comme l'indique la page Welcome IndexController). Le second paramètre est un tableau associatif (dit aussi dictionnaire dans d'autres langages informatiques), qui contient des options à tranmsettre à l'application en charge de générer les templates, qui dans le cas de Symfony, est Twig. Twig est donc chargé de l'aspect "View" de notre framework, comme nous le verrons plus tard.
+
+	La classe Request:
+	A l'instar de la classe Response, la classe Request génère un objet qui, cette fois-ci, servira à traiter de manière plus efficace la requête utilisateur. Comme déjà dit, toute communication avec un site web est une requête. La partie client passe une requête via différents paramètres à une partie serveur, qui prend en compte la requête dans son entièreté, l'accepte ou la refuse, et en cas d'acception ou selon le type de refus, renvoie un fichier ou une page web générée au préalable.
+	Une requête contient donc des éléments mentionnés plus hauts, tels que l'adresse IP, le navigateur, ou encore les données d'un formulaire. Dans le cadre de Symfony, la gestion de tous ces éléments de la requête client sont pris en charge par l'objet instancié par la classe Request.
+	Comme pour la classe Response, il faut s'assurer que la classe Request est bel et bien utilisée par notre classe Controller.
+		use Symfony\Component\HttpFoundation\Request;
+
+
+	--
+	L'organisation de notre application: Le Controller
+
+	Si index.php (dans le dossier "public") est le point de départ de la requête client vers le lancement de notre application, les classes .php de notre Controller sont où nous, en tant que développeurs, commençons le développement de notre application.
+
+	Nous pouvons avoir autant de classes Controller que nous le désirons en théorie, mais combien de classes nécessite-t-on, et combien de méthodes sont nécessaires pour chaque controller? La réponse est que cela dépend en fonction du projet de site et de ses futures fonctionnalités, mais il vaut mieux créer un controller pour chaque thème et chaque fonction. Dans le cadre de SymfonyBlog, nous nous limiterons du fait de la simplicité du site à un seul controller, IndexController.
+
+	Par thème, il faut entendre chaque pan du site dédié à un aspect particulier du service proposé à l'utilisateur. Par exemple, IndexController est lié à l'affichage de l'accueil et de différentes fonctionnalités de ce dernier dans le cadre d'une bonne expérience utilisateur. MemberController peut être lié à la gestion et la communication des différentes pages réservées aux services pour les membres d'un site web.
+
+	Par fonctionnalité, il faut entendre un Controller entièrement dédié à la gestion correcte de certains types de données. Par exemple, il est possible de développer un ProductController dont le but est de gérer toutes les fonctions d'achat et de livraison de produits d'un site e-commerce.
+
+	Avant tout, l'idéal est d'avoir un nombre restreint de Controller mais dont l'utilité est claire et dont les méthodes (fonctions de classe) sont présentes et justifiées.
+
+	Chaque méthode de notre Controller peut être divisée en quatre parties d'importance égale, chacune gérant un aspect de la préparation d'une réponse à la requête client.
+
+	- Les annotations, qui prennent en charge le routage (entre autres)
+	- La déclaration de la méthode, donc son nom, son statut (public), et le nombre de paramètres/arguments pris en charge.
+	- Le coeur de la méthode, à avoir la liste des instructions effectuées
+	- Le retour (return) de la méthode, qui rendra dans le Controller une Response sous la forme entre autres d'une simple chaîne de caractères, ou en d'un résultat plus complexe obtenu par l'action de Twig, OU ENCORE une Response qui ne sera PAS renvoyée au Client mais qui redirigera la requête vers une autre méthode de Controller.
+
+	Exemple d'Annotation:
+	#[Route('/', name: 'app_index')]
+	Les annotations permettent de placer de informations relatives à la méthode qu'elles précèdent, mais dans le cas du Controller, elles nous permettent également de déterminer la Route qui mène à notre méthode. La route est un moyen, par la réception d'une requête client, de repérer à quelle méthode faire appel.
+
+	Notre route est spécifiée par Route(), puis par l'entrée de deux paramètres
+	Le premier paramètre nous permettra d'indiquer quelle est l'URL à entrer pour parvenir à cette méthode, tandis que le second paramètre est le nom de la route attribuée à la méthode. Si le premier paramètre est nécessaire pour les requêtes clients, le nom attribué à la route sera celui qui sera le plus utile côté développeur, étant donné que la génération dynamique d'URL nécessite l'entrée du nom de la route correspondante.
+
+	Nous pouvons définir des "paramètres de route", lesquels seront transmis à notre fonction et seront susceptibles d'être intégrés à la logique algorithmique.
+
+	#[Route('/page/{number}', name: 'index_pages')]
+	public function displayPage(int $number): Response
+	{
+		(...)
+	}
+
+	(Attention à faire en sorte que la première partie de l'URL ne soit pas générique afin d'éviter que cette route soit prioritaire sur d'autres ayant accidentellement la même structure)
+	Le paramètre est indiqué via des accolades. La valeur indiquée par la requête client à la place de ce segment sera récupérée et placée à l'intérieur d'une variable du même nom que la clef de ce segment (dans notre exemple, $number). Nous pouvons reprendre cette valeur et l'utiliser comme bon nous semble.
+	Ne pas renseigner ce paramètre de la part du client résultera en une erreur de type 404, la route étant considérée comme non trouvée. 
+	
+
+	Un retour rapide sur l'aspect MVC: cet acronyme signifie donc Model, View, Controller.
+
+	- Controller (Contrôleur)
+	Le Controller (ou Contrôleur) regroupe tous les programmes PHP nécessaires au bon fonctionnement de notre application. Le Controller n'est pas seulement la classe PHP Controller appeelée ou la méthode correspondant à la route que nous avons requise, mais désigne le processus entier d'appel aux différentes bibliothèques et aux différents services nécessaires au bon traitement des données. Le Controller est donc le coeur de notre application.
+
+	- View (Vue)
+	La View (ou Vue) regroupe tous les fichiers nécessaires à la génération de notre page web à retourner en réponse à la requête Client. Si le Model contient la matière de notre application Symfony et les données susceptibles d'intéresser l'utilisateur, le but de la View est de présenter ces informations de manière efficace et intelligibles, via une interface graphique.
+	La View est idéalement composée de plusieurs fichiers regroupés dans le dossier Templates, offrant les templates (en français, les gabarits) nécessaires pour expliquer et contextualiser les informations du Model (c'est-à-dire, la base de données) récupérées sur décision du Controller. Le code PHP est laissé aussi minimal que possible dans ces fichiers de vue, dans l'idéal de séparation des tâches.
+	Nous allons utiliser un langage dit de template, Twig, qui a pour but de simplifier la maigre part de PHP et de rendre les templates/gabarits aussi faciles à lire et flexibles que possible.
+
+	- Model (Modèle)
+	Le Model (ou Modèle) regroupe toutes les données employées par notre application. Il s'agit des données persistantes, appelées comme telles car leur existence persiste au-delà d'une simple session utilisateur. Dans notre cas, nous allons surtout nous intéresser aux données persistantes stockées dans notre base de données. Tout ce qui est information propre à être traitée par notre application et être envoyée au Client et Model: il s'agit de la matière de l'application, que le Controller a la tâche de distribuer selon les requêtes Client. Dans notre cas, le Model concernera uniquement notre base de données MySQL.
+
+
+	---
+	Twig
+
+	Lorsque nous terminons notre méthode de Controller, nous lui indiquons quel type d'objet de type Response rendre. En utilisant $this->render(), nous indiquons à Symfony que nous allons transiter par Twig afin de générer la Response que nous désirons envvoyer à la requête client.
+
+	Twig est avant tout un langage de template. C'est un langage visant à alléger le code de notre page web en remplaçant le PHP par une série de balises à l'apparence plus aisée à lire, comme les balises à {{ double accolade }} ou les balises à {% accolade-pourcentage %}. A noter qu'il est également possible d'installer Symfony sans utiliser Twig, et il est également possible d'utiliser Twig sur un projet qui n'emploie pas Symfony. Cependant, Twig est optimisé pour Symfony, et dans sa configuration de base, Symfony installe Twig par défaut.
+
+	Twig est un langage qui se greffe au HTML. Chacune des instructions du langage de template sera effectuée au sein de trois types de balise:
+		{{ *** }} -> Les double accolades sont utilisées pour afficher le contenu d'une variable ou le resultat d'une expression
+		{% *** %} -> L'accolade-pourcentage est utilisée dans le cadre des boucles et structure de contrôle (if, for, include ou encore déclaration d'héritage)
+		{# *** #} -> L'accolade-dièse permet d'écrire des commentaires. Contrairement aux commentaires HTML, les commentaires Twig ne sont pas visibles depuis le code-source de la page.
+		<!--
+			Ceci est un commentaire HTML (visible depuis le code source)
+		-->
+	Twig s'apprend rapidement et la documentation indique toutes les expressions nécessaires pour la création d'un template.
+			https://twig.symfony.com/doc/3.x/
+
+	Twig adopte un système de blocs pour se structurer. En observant une page Twig, nous constatons rapidement qu'à l'exception decertaines pages telles que base.html.twig, le code de nos pages Twig est inséré à l'intérieur de blocs à la syntaxe suivante:
+
+		{% block A %}
+			...contenu du bloc
+		{% endblock %}
+
+		{% block B %}
+			... contenu du bloc
+		{% endblock %}
+
+	Comme nous pouvons le constater, la structure des accolades de ces blocs suit un schéma {% *** %} qui indique un type de structure de contrôle/organisation. Ces blocs sont conçus pour préparer un type d'héritage particulier de Twig.
+	Par héritage, il faut entendre la récupération du code d'une page-mère au profit d'une page-fille. La page Twig héritante récupère toute la structure de la page-mère avant de modifier le contenu des blocs présents sur la page. C'est pourquoi il est impossible pour une page-fille de posséder un contenu qui ne serait pas situé à l'intérieur d'un bloc.
+
+	Ainsi, il est possible et recommandé de rédiger toute la structure de base de notre application web dans une page Twig dédiée, telle que base.html.twig, et de réserver un bloc à l'intérieur de notre page, pour la page Twig héritante. Il suffi pour la page Twig (que nous allons appeler via notre Controller) d'héiter de base.html.twig pour que la mise en page de base soit automatiquement reprise tandis que notre page template héritante sera laissée aussi simple que possible. 
+
+	Attention, le contenu d'un bloc hérité n'affiche pas les valeurs saisies à l'intérieur du fichier parent à moins que le développeur n'en exprime le désir. Afin de pouvoir récupérer le contenu d'un bloc twig du fichier parent, il est nécessaire de faire appel à la fonction Twig:
+		{{ parent() }}
+	Cette fonction prédéfinie récupère les instructions présentes à l'intérieur du bloc concerné du fichier parent, et les recopie à l'emplacement de la fonction.
+
+
+	Les fonctionnalités Twig:
+
+	Les Filtres
+	Les filtres sont placés après une barre/pipe (AltGr+6 -> |), dans une balise Twig à double accolade. Leur fonction est de transformer la valeur inscrite dans la double accolade en question.
+	{{ value|upper }} -> Transforme la chaine de caractère présente dans value en mettant chaque lettre en majuscule.
+	{{ text|nl2br }} -> "/n/l to <br>" remplace les newline (/n, /l, ou encore /nl) utilisés dans la base de données en route à la ligne de type HTML (<br>).
+	Les filtres sont très utiles pour pouvoir modifier une valeur transmise via la Controller et l'adapter à l'interface présentée à l'utilisateur.
+
+	Les Fonctions
+	Les fonctions possèdent une logique semblable aux filtres mais avec une syntaxe plus classique. La fonction, en comparaison au filtre, a une action plus radicale en ce qu'elle transforme l'expression, la valeur ou le tableau présenté à une fin autre qu'un affichage plus aisé.
+	{{ max([1, 2, 3]) }} -> Retourne la valeur la plus élevée (les autres valeurs sont donc perdues).
+	{{ dump(value) }} -> dump() affiche le contenu d'une valeur avec quantité de détails et est donc très importante dans le processus de débogage.
+
+	Les Tests
+	Les tests sont des fonctions spéciales, ayant pour but de vérifier l'exactitude d'une affirmation. Ils sont reconnus par l'usage du mot-clef "is"
+	{% if var is empty %} -> empty: Vérifie si la variable concernée est vide, et rend true dans ce cas.
+	{{ var is even }} -> even: rend true si "var" est un nombre pair
+
+
+	Trois fonctionnalités Twig particulières:
+
+	L'Inclusion de Vue
+	L'Inclusion est une fonction complémentaire à l'héritage. Inversement à Extends, qui publie la page Twig à l'intérieur de la page héritée, include() inclut une page Twig à l'intérieur de la page faisant appel àla fonction. Include() fonctionne comme la fonction PHP require() (et non pas comme la fonction PHP include(), car si la page indiquée en paramètre n'existe pas, utiliser cette fonction Twig résultera en une erreur).
+		{% include 'layout/header.html.twig' %}
+	Le contenu de la page header.html.twig sera automatiquement ajouté à l'emplacement de l'instruction.
+
+
+	L'Incorporation des éléments du dossier Public, avec la fonction asset()
+
+	Afin de pouvoir ajouter un élément nécessaire au bon fonctionnement du site et qui doit être directement accessible via une requête client, Twige possède une fonction asset() qui est un lien direct vers le contenu du dossier public.
+		{{ asset('assets/css/bootstrap.min.css') }}
+	Rédigé ainsi, le bloc génèrera automatiquement un lien en partant du dossier public et qui pointera vers la ressource indiquée, ici, le fichier stylesheet bootstrap.min.css, rangé dans le dossier css, dans le dossier assets. Ceci permet d'assurer un chargement correct de la ressource, sans avoir à anticiper son emplacement sur le serveur.
+
+
+	La fonction path()
+
+	{{ path('app_index') }}
+	La fonction path() est une fonction de Twig vitale au bon fonctionnement de notre application: son rôle est de générer une URL menant vers une autre route de notre application web, selon le nom de la route qui a été rédigé dans les annotations de la méthode concernée.
+	La fonction path() peut également prendre un second paramètre lequel est un tableau qui permet de transmettre des paramètres de route, comme par exemple, {squareValue}. A noter que la syntaxe Twig pour une tableau est légèrement différente d'une syntaxe PHP classique. En PHP, nous créons un tableau de la manière suivante:
+
+	['key' => 'value']
+
+	Tandis que le tableau que nous allons utiliser avec la fonction path() fonctionne ainsi:
+
+	{{ path('app_index', {'key' : 'value'}) }}
+	Notre fonction path() ainsi rédigée récupèrera la valeur indiquée par la clef 'key' et remplacera le segment de l'URL par ladite valeur.
+
+
+	--
+	Les Entities (Entités)
+
+	Une Entity (Entité) est une classe PHP au sein de Symfony, qui est dotée de plusieurs caractéristiques à travers ses attributs, et qui sera une unité de base dans la gestion de l'aspect Model de notre application. En pratique, une classe Entity sera convertie en table par la bibliothèque Doctrine, et chaque élément conçu à partir de cette Entity sera une entrée de cette table (de base de données relationnelle).
+	En d'autres termes, une Entity est une classe PHP convertie en table par Doctrine, tandis que ses instances de classe (objets) seront converties en entrée de cette nouvelle table SQL. Les Entities sont utilisées pour pouvoir conserver certains types d'informations dans un format standardisé, mais leur nature d'objet nous permet, contrairement à un simple tableau associatif, de pouvoir également utiliser ses méthodes pour modifier automatiquement ses attributs ou les formatter de manière à en faciliter la lecture.
+
+	Les Entities peuvent être générées à partir d'une commande via notre terminal. Cette méthode est recommandée afin de ne pas provoquer d'erreurs de syntaxe ou d'oubli:
+		php bin/console make:entity
+	Plusieurs questions seront alors posées via le terminal afin de pouvoir définir de manière complète notre Entity, avant de la générer automatiquement, par la création de deux classes PHP, une classe Entity et une classe Repository.
+
+
+	L'Element Model, Doctrine, et les Migrations
+
+	L'Element Model d'une application comporte toutes les données sur lesquelles notre application va travailler. La base de données est quant à elle une structure où nous allons classer les données prêtes à être rapidement extraites et utilisées de manière sécurisée pour le fonctionnement de notre application. Les données elles-mêmes sont classées dans des tables, qui réunies composent notre base de données.
+
+	De manière classique, l'échange entre notre application et notre base de données s'effectue via le langage SQL. C'est le cas en PHP classique, où nous utilisons le module PDO pour envoyer des instructions à notre Système de Gestion de Base de Données (SGBDD). Cependant, nous n'allons pas utiliser de SQL classique avec Symfony. Symfony utilise une bibliothèque particulière nommée Doctrine.
+	Doctrine est, comme Twig, indépendant de Symfony. C'est ce qu'on appelle un ORM (Object-Relational Mapping).
+
+	Les ORM, comme leur nom l'indique, sont des applications servant d'intermédiaires entre les structure de base de données relationnelles, et les structures orienté objet. Ici, Doctrine fera en sorte que nous n'ayons pas à écrire nous-mêmes notre code SQL et à réfléchir à traduire le fonctionnement classique de Symfony en une structure relationnelle classique.
+	Doctrine interprétera le code de notre application et génèrera une série d'instructions SQL adaptées pour traduire ledit code de manière efficace. Ce processus étant automatisé, nous n'avons pas à nous en soucier. Ce qui nous intéresse est l'utilisation efficace de Doctrine et l'établissement correct d'une structure Model selon les règles de Symfony, via les Entities.
+
+	La première étape dans la configuration de Doctrine, si la bibliothèque est déjà installée (elle l'est par défaut dans l'installation webapp de Symfony), est la modification du fichier .env à la racine de notre projet afin de renseigner notre type de SGBDD, notre adresse et port de connexion, identifiant, et mot de passe. Une fois que cette étape est conclue, nous créons notre nouvelle base de données compatible Doctrine avec la commande suivante:
+		php bin/console doctrine:database:create
+	Si tout se passe sans erreur, nous avons donc ici notre première base de données, avec laquelle Doctrine peut accéder et interagir à loisir.
+	Ensuite, il faudra demander à Doctrine d'analyser nos classes et de générer une série de commandes SQL pour les traduires en tables relationnelles classiques. Pour cela, nous allons utiliser une procédure que nous appelons la migration.
+
+	Comme son nom l'indique, la migration est la transmission de notre classe Entity vers la base de données: il s'agit d'un déplacement d'un concept (Orienté Objet) vers un autre (Données Relationnelles). La classe Migration est une classe PHP ayant pour fonction de gérer ce processus. Elle est automatiquement préparée par Doctrine via la commande suivante:
+		php bin/console make:migration
+	Créer la classe ne suffit cependant pas à appliquer son contenu. Il faudra ensuite signifier à Doctrine d'appliquer les instructions générées par la classe via une seconde commande:
+		php bin/console doctrine:migrations:migrate
+
+	Le fichier de migration généré obtient un numéro de version basé sur l'heure et la date de sa création. Il possède trois méthodes, une description, up(), et down(). Le but des méthodes up() et down() est de faire exécuter une série d'instructions SQL générées par Doctrine, soit pour effectuer des changements de la structure de notre base de données, soit pour revenir à l'état antérieur des choses.
+	Etant donné qu'à chaque nouvelle migration, une nouvelle classe est créée possédant les nouvelles instructions à transmettre, cela signifie qu'il est possible, à travers les méthodes up() et down(), de mettre à jour comme de revenir à des versions antérieures de notre base de données.
+
+	La gestion de notre table est entièrement prise en charge par Doctrine: ce n'est pas à nous de nous en occuper. Ce qui nous intéresse est la gestion des Entity. Nous faisons appel à Doctrine pour récupérer des informations dont nous avons besoin pour récupérer les Entity qui nous ajoutons à notre base de données, et nous laissons à Doctrine le travail de manipuler ces données pour générer un objet Entity qui nous sera rendu. Il ne faut donc pas essayer d'effectuer des changements manuels à nos tables de notre base de données.
+
+
+	Les Fixtures
+
+	Dans le cas d'une application Symfony dont le développement vient de commencer, les outils mis en place peuvent être limités pour le développeur: s'il désire tester ses bases de données sans avoir conçu de fonctions ou de formulaires permettant la mise en ligne rapide d'instances d'Entities, il peut cependant employer un autre moyen qui lui permettra de remplir sa base de données avec des informations temporaires: il s'agit des Fixtures.
+
+	Les Fixtures sont des entrées temporaires visant à tester le fonctionnement de notre application et de notre base de données. Ces "fausses informations" qui n'ont pas été créées pour être conservées mais qui ont pour but de tester les capacités d'affichage et de gestion des informations par notre application, rempliront rapidement la base de données de notre application en période de développement.
+
+	Nous devons installer le module de fixtures avant de pouvoir l'utiliser, via la commande:
+		composer require --dev orm-fixtures
+
+	Le module de Fixtures crée un nouveau nommé DataFixtures ainsi que des classes de type Fixture, dotées d'une méthode load(). Il va s'agir ici d'utiliser cette méthode afin de faire appel à l'Entity Manager, déjà injecté par défaut et ayant pour tâche de gérer les Entities et leur envoi vers la base de données, et placer les demandes de persistance pour les instances d'Entity que nous allons créer au sein de la méthode.
+
+	Pour reprendre les quatre étapes de la persistances des données en Symfony:
+		-> Nous créons la nouvelle instance d'Entity avec le mot-clef new
+		-> Nous définissons notre instance d'Entity via le Constructeur et/ou les Setters
+		-> Nous indiquons à Doctrine que nous souhaitons que cette instance soit conservée (persiste dans son existence) via la méthode persist()
+		-> Nous demandons à Doctrine d'appliquer toutes les opérations que nous avons requises, via la méthode flush()
+
+	Afin d'appliquer le contenu de nos méthodes load(), nous utilisons la commande suivante:
+		php bin/console doctrine:fixtures:load
+	Toutes les classes Fixture dans le dossier DataFixtures se terminant par Fixtures.php verront leur méthode load() appelée juste après que le contenu de la base de données soit purgé.
+
+
+	La récupération des données de notre base de données, via Doctrine:
+
+	A présent que notre base de données possède des entrées susceptibles d'être récupérées et utilisées par notre application, nous devons être capables de lancer des requêtes à notre base de données en ce sens. En PHP classique, nous utiliserions le module PDO. Dans le cadre de Symfony, nous utilisons Doctrine.
+
+	Doctrine possède des fonctions prédéfinies pour récupérer les informations à partir d'une table. Etant donné que nous approchons nos données persistantes du point de vue des Entities et non des tables, nous devons transmettre à Doctrine une requête de récupération des données d'une Entity désignée. Cette opération est effectuée grâce à une classe spécialisée en ce sens, qui est l'Entity Manager.
+
+	L'Entity Manager est une classe qui nous permet de gérer le fonctionnement des Entity. Grâce à elle, nous pouvons atteindre la classe Repository, qui sera celle qui nous permettra d'effectuer des requêtes de récupération de données. Le Repository est une classe spéciale contenant plusieurs méthodes détaillant divers critères de récupération de données persistantes (c'est-à-dire stockées dans notre Model, dont fait partie la base de données).
+
+	Ainsi, nous récupérons deux outils via deux variables: l'Entity Manager, qui nous permettra de récupérer les Repository et d'effectuer les requêtes de persistance et de suppression des Entities, et le Repository, qui possède les méthodes nécessaires pour retrouver les instances d'Entity correspondant à nos critères de recherche.
+
+	Le Repository contient déjà des méthodes prédéfinies nous permettant de récupérer certaines entrées de notre table SQL. La méthode findAll() rendra toutes les entrées de notre table sans exception. Le résultat sera stocké dans un tableau qui sera donc récupéré et exploité au sein de notre méthode de Controller.
+	Il sera donc possible d'utiliser les boucles pour itérer à l'intérieur de ce tableau et de traiter les différentes instances d'Entity qui y sont stockées, que ce soit à l'intérieur de notre Controller ou dans notre template, grâce aux boucles "for" de Twig.
+
+	Doctrine et le Repository possèdent différentes méthodes, et la spécialité du SQL étant la récupération rapide de données, il est largement préférable d'utiliser ces méthodes plutôt que d'employer un findAll() et de traiter le résultat soi-même avec un code PHP bien plus lent à l'exécution.
+	En plus de la méthode findAll(), laquelle permet de récupérer tous les résultats, la méthode find() nous permet de récupérer une seule instance d'Entity, laquelle est identifiée par son numéro d'ID. Il existe deux autres méthodes prédéfinies pour nous aider dans nos recherches via Repository, qui sont donc findOneBy() et findBy(), qui permettent de préparer nos propres critères de recherche.
+	Il existe donc quatre méthodes prédéfinies dans le Repository pour nous aider dans nos recherches.
+	
+
+	La Suppression d'Entity
+
+	Si la récupération d'instance d'Entity s'effectue avec le Repository, la création de nouvelles entrées de notre table s'effectue avec l'Entity Manager et ses méthodes persist() et flush(). La modification d'Entity s'effectue donc en toute logique par une première récupération de l'Entity désirée via le Repository, sa modification via PHP et son renvoi sous une nouvelle valeur comme entrée de table de notre base de données, via la méthode persist(). La modification ici peut être effectuée par les moyens que l'on désire, qu'il s'agisse d'employer un formulaire ou directement les setters (ou une autre méthode d'Entity que nous avons définie).
+	La suppression d'Entity emploie également l'Entity Manager, mais avec une toute nouvelle méthode, aussi simple que possible. En effet, la suppression d'une Entity est effectuée grâce à la méthode remove() de l'Entity Manager, qui fonctionne selon un modèle semblable à persist(). Il faudra donc confirmer notre requête de suppression avec la méthode flush().
+
+	Les Formulaires sous Symfony
+
+	Dans le cadre de Symfony, les formulaires sont un aspect très pris en charge et grandement automatisé. Si, même en PHP/HTML classique, la rédaction et la prise en charge des formulaires sont un aspect essentiel des requêtes client et donc du fonctionnement général du site, en Symfony, cet aspect est encore davantage poussé grâce à la flexibilité du générateur de formulaire avec lequel il est possible de les spécialiser. Ce générateur est nommé le Form Builer (le constructeur de formulaire).
+
+	Le Form Builder est une classe Symfony dont l'instance prend plusieurs options afin de créer un formulaire correspondant aux critères que se donne le développeur. Le formulaire est ensuite automatiquement traité par Symfony et mis en relation avec l'instance de l'Entity concernée (si désiré), et est capable de gérer lui-même toutes les données passées via requête utilisateur grâce à la méthode handleRequest().
+
+	Etant donné que dans le cadre d'un site web en état de production, la majorité des informations vouées à remplir notre base de données viendra à nous via des requêtes client, le formulaire est un aspect essential de la construction de l'aspect Model de notre application. L'usage du Form Builder est donc de première importance.
+
+	Il existe deux types de formulaire créés par le Form Builder, ceux créés par le développeur dans le cadre du Controller, et ceux générés de l'extérieur via une classe spécialisée (dont le nom s'achève avec "Type", par exemple, "BulletinType"). Le second cas est ce qu'on appelle un formulaire externalisé et sera le principal type de formulaire employé par notre application.
+
+	La caractéristique des formulaires externalisés est non seulement leur indépendance des Controller, mais le fait qu'ils sont également liés à des Entity (il est possible de créer un formulaire externalisé non lié à une Entity, mais nous ne nous en servirons pas). Le formulaire externalisé a pour avantage d'être facile à requérir à partir de la classe Form et d'être conçu directement sur mesure pour notre Entity. Mais il a pour défaut de ne pas être aussi flexible qu'un formulaire construit depuis notre Controller (ou non lié à une Entity), qui par l'action du développeur est capable de s'adapter à une plus grande multitude de cas.
+
+	Le formulaire externalisé est généré à partir d'une commande de notre console:
+		php bin/console make:form
+	Il faudra renseigner le nom de notre classe Form, ainsi que le nom de l'Entity à laquelle ce formulaire est lié (optionnel). La génération du fichier classe est immédiatement entreprise ensuite.
+
+	Le formulaire généré possède automatiquement autant de champs qu'il existe d'attributs dans notre Entity, id excepté. Le formulaire ainsi généré est cependant inutilisable du fait qu'il manque un champ/bouton de validation afin de soumettre le formulaire. C'est pourquoi il est nécessaire d'ajouter à la fin de la méthode de création du formulaire, via la méthode add(), un nouveau champ de type SubmitType, qui fait référence à un bouton de validation. Il ne faudra pas oublier le use associé, qui est donc:
+		use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+	Une fois ceci effectué, le formulaire, si basique, est utilisable et génèrera bien une requête complète une fois rempli et validé. Il nous faudra ensuite créer une méthode au sein de notre Controller afin de prendre avantage de cette Request.
+
+	Une méthode du Controller gérant un formulaire doit donc implémenter l'objet Request dans ses paramètres, et utiliser les méthodes du formulaire Symfony. La première méthode nécessaire à la génération du formulaire est $this->createForm(), laquelle prend en paramètre le nom de la classe Type associée (par exemple, BulletinType::class), ainsi qu'une instance de l'Entity liée. Il suffit alors de générer la vue de notre formulaire via la méthode $dataForm->createView() et de passer le formulaire en paramètre vers le fichier Twig où la fonction Twig
+		{{ form(dataForm) }}
+	affichera le formulaire en question.
+
+	Lorsque le formulaire est généré et rempli, nous allons devoir récupérer son contenu et le placer dans notre base de données. Les méthodes de formulaire de Symfony automatisent tout le processus. La fonction handleRequest($request) prend le contenu de la requête utilisateur et applique les nouvelles valeurs à notre instance de formulaire et à l'Entity liée.
+
+	Après cette application de la Request, il est possible de vérifier si le formulaire est rempli et valide grâce à l'action conjointe des méthodes isSubmitted() et isValid(). Nous utilisons ces deux méthodes dans le cadre d'une structure de contrôle "if" afin de déterminer si le formulaire doit avoir son contenu pris en charge dans le cadre de notre méthode de Controller (par exemple, si notre formulaire est correctement rempli, on prend en charge son contenu afin de persister une nouvelle Entity).
+
+	La persistance est donc assurée par l'Entity Manager. Il s'agit ici de deux processus absolument différents faisant appel à différents modules de Symfony, qui, bien qu'associés ensemble dans la même méthode de notre Controller, opèrent des rôles complémentaires et séparés.
+	Ceci signifie que nous sommes parfaitement capables d'opérer des contrôles et des modifications sur des données de formulaire avant leur mise en ligne sur des sujets qui ne concernent pas forcément la validité du formulaire, tels que par exemple, la vérification de l'absence de valeur déjà présente dans notre BDD en ce qui concerne la valeur de tel ou tel champ de notre formulaire.
